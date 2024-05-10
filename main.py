@@ -28,10 +28,9 @@ try:
         print("Proxy has been blocked. Exiting the program.")
     else:
         print("No proxy block detected. Continuing the program.")
-        print("LolwatbigPP DebugPrint")
         # Handle Kekflare checkbox
         iframe = page.get_frame('@src^https://challenges.cloudflare.com/cdn-cgi')
-        element = iframe('.mark')
+        element = iframe('.cb-i')
         print("CF CLICK!")
         element.click()
         
