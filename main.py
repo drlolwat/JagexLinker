@@ -24,8 +24,8 @@ try:
     cf_wrapper = page.ele('.cf-turnstile-wrapper')
     wrapper = page.ele(".cf-turnstile-wrapper")
     shadow_root = cf_wrapper.shadow_root
-    iframe = shadow_root.ele("tag=iframe", timeout=3)
-    verify_element = iframe.ele("Verify you are human", timeout=3)
+    iframe = shadow_root.ele("tag=iframe", timeout=8)
+    verify_element = iframe.ele("Verify you are human", timeout=8)
     verify_element.click()
     
     # Check if the email field exists
