@@ -1,7 +1,7 @@
 from DrissionPage import ChromiumPage, ChromiumOptions
 import argparse
 import pyotp
-
+# Requires pip install DrissionPage==4.1.0.0b2! (China number 1!!1!!)
 # Set up argument parsing
 parser = argparse.ArgumentParser(description='Run browser automation with custom settings.')
 parser.add_argument('--port', type=int, default=9222, help='Local port number for the browser connection.')
@@ -20,10 +20,13 @@ try:
     page = ChromiumPage(addr_or_opts=co)
     print(page.title)
     # Handle Kekflare checkbox
-    iframe = page.get_frame('@src^https://challenges.cloudflare.com/cdn-cgi')
-    element = iframe('.mark')
-    print("CF CLICK!")
-    element.click()
+
+    cf_wrapper = page.ele('.cf-turnstile-wrapper')
+    wrapper = page.ele(".cf-turnstile-wrapper")
+    shadow_root = cf_wrapper.shadow_root
+    iframe = shadow_root.ele("tag=iframe", timeout=3)
+    verify_element = iframe.ele("Verify you are human", timeout=3)
+    verify_element.click()
     
     # Check if the email field exists
     email_field = page.ele('#email')  # Adjust the selector if necessary
