@@ -1,4 +1,5 @@
 from DrissionPage import ChromiumPage, ChromiumOptions
+from DrissionPage.common import Actions
 import argparse
 import pyotp
 # Requires pip install DrissionPage==4.1.0.0b2! (China number 1!!1!!)
@@ -21,13 +22,16 @@ try:
     print(page.title)
     # Handle Kekflare checkbox
 
-    cf_wrapper = page.ele('.cf-turnstile-wrapper')
-    wrapper = page.ele(".cf-turnstile-wrapper")
-    shadow_root = cf_wrapper.shadow_root
-    iframe = shadow_root.ele("tag=iframe", timeout=8)
-    verify_element = iframe.ele("Verify you are human", timeout=8)
-    verify_element.click()
-    
+    # cf_wrapper = page.ele('.cf-turnstile-wrapper')
+    # wrapper = page.ele(".cf-turnstile-wrapper")
+    # shadow_root = cf_wrapper.shadow_root
+    # iframe = shadow_root.ele("tag=iframe", timeout=8)
+    # verify_element = iframe.ele("Verify you are human", timeout=8)
+    # verify_element.click()
+    #Please test it on a Agent before Pushing live!
+    actions=Actions(page)
+    actions.move_to("#turnstile-wrapper", duration=0.5).left(120).hold().wait(0.01, 0.15).release() 
+
     # Check if the email field exists
     email_field = page.ele('#email')  # Adjust the selector if necessary
     if email_field:
