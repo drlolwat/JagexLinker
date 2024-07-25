@@ -30,7 +30,7 @@ try:
     # verify_element.click()
     #Please test it on a Agent before Pushing live!
     actions=Actions(page)
-    actions.move_to("#turnstile-wrapper", duration=0.5).left(120).hold().wait(0.01, 0.15).release() 
+    actions.move(92, 380).hold().wait(0.01, 0.15).release()
 
     # Check if the email field exists
     email_field = page.ele('#email')  # Adjust the selector if necessary
