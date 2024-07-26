@@ -29,8 +29,9 @@ try:
     # verify_element = iframe.ele("Verify you are human", timeout=8)
     # verify_element.click()
     #Please test it on a Agent before Pushing live!
+    page.wait.load_start()
     actions=Actions(page)
-    actions.move(92, 380).hold().wait(0.01, 0.15).release()
+    actions.move_to("#challenge-form", duration=0.5).left(120).hold().wait(0.01, 0.15).release() 
 
     # Check if the email field exists
     email_field = page.ele('#email')  # Adjust the selector if necessary
