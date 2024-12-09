@@ -31,9 +31,9 @@ try:
     #Please test it on a Agent before Pushing live!
     page.wait.load_start()
     actions=Actions(page)
-    while page._find_elements("#challenge-form"):
+    while page._find_elements(".main-content"):
         actions=Actions(page)
-        actions.move_to("#challenge-form", duration=0.5).left(120).hold().wait(0.01, 0.15).release()
+        actions.move_to(".main-content", duration=0.5).left(120).hold().wait(0.01, 0.15).release()
         sleep(4)
 
     # Check if the email field exists
