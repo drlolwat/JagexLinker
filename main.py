@@ -16,25 +16,38 @@ args = parser.parse_args()
 totp = pyotp.TOTP(args.totp_secret)
 current_otp = totp.now()
 
+#JS Code for CF Fix.
+js_code = """
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+let screenX = getRandomInt(800, 1200);
+let screenY = getRandomInt(400, 600);
+Object.defineProperty(MouseEvent.prototype, 'screenX', { value: screenX });
+Object.defineProperty(MouseEvent.prototype, 'screenY', { value: screenY });
+"""
+
 try:
     co = ChromiumOptions().set_local_port(args.port)  # Use the port number from arguments
     page = ChromiumPage(addr_or_opts=co)
-    print(page.title)
-    # Handle Kekflare checkbox
 
-    # cf_wrapper = page.ele('.cf-turnstile-wrapper')
-    # wrapper = page.ele(".cf-turnstile-wrapper")
-    # shadow_root = cf_wrapper.shadow_root
-    # iframe = shadow_root.ele("tag=iframe", timeout=8)
-    # verify_element = iframe.ele("Verify you are human", timeout=8)
-    # verify_element.click()
-    #Please test it on a Agent before Pushing live!
+    # Old_ Handle Cloudflare turnsile
+    #actions=Actions(page)
+    #while page._find_elements(".main-content"):
+    #    actions=Actions(page)
+    #    actions.move_to(".main-content", duration=0.5).left(120).hold().wait(0.01, 0.15).release()
+    #    sleep(4)
+
     page.wait.load_start()
-    actions=Actions(page)
-    while page._find_elements(".main-content"):
-        actions=Actions(page)
-        actions.move_to(".main-content", duration=0.5).left(120).hold().wait(0.01, 0.15).release()
-        sleep(4)
+    # New_ Cloudflare with injection
+    sleep(4)
+    challengeSolution = page.ele("@name=cf-turnstile-response")
+    challengeWrapper = challengeSolution.parent()
+    challengeIframe = challengeWrapper.shadow_root.ele("tag:iframe")
+    challengeIframe.run_js(js_code)
+    challengeIframeBody = challengeIframe.ele("tag:body").shadow_root
+    challengeButton = challengeIframeBody.ele("tag:input")
+    challengeButton.click()
 
     # Check if the email field exists
     email_field = page.ele('#email')  # Adjust the selector if necessary
