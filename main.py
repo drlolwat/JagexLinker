@@ -39,6 +39,16 @@ try:
     #    sleep(4)
 
     page.wait.load_start()
+    
+    # Wait for cookie consent dialog and click it
+    allow_all_btn = page.ele("#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll", timeout=10)
+    if allow_all_btn:
+        print("Cookie consent button found. Clicking Allow All...")
+        allow_all_btn.click()
+        sleep(1)
+    else:
+        print("Cookie consent button not found or already dismissed.")
+
     # New_ Cloudflare with injection
     sleep(4)
     challengeSolution = page.ele("@name=cf-turnstile-response")
